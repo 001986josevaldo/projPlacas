@@ -1,0 +1,7 @@
+dica: use o vlc para abrir o video
+
+Comando usado para comprimir o video:
+"ffmpeg -i video_original.mp4 -vcodec libx265 -crf 28 video_comprimido.mp4"
+
+Comando para voltar ao formato original (H.264):
+"ffmpeg -i video_comprimido.mp4 -vcodec libx264 video_original_format.mp4"
