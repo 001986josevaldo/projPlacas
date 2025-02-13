@@ -1,1 +1,1 @@
-
+Sistema em Python para detecção, rastreamento e leitura de placas veiculares em tempo real, utilizando YOLO (Deep Learning) para detecção, OpenCV para processamento de imagens e TensorFlow (Machine Learning) para reconhecimento óptico de caracteres (OCR). O sistema foi treinado com técnicas de Machine Learning e Deep Learning em um dataset customizado, garantindo alta precisão em diferentes cenários. A solução é ideal para aplicações como controle de tráfego e segurança. Tecnologias: Python, YOLO, OpenCV, TensorFlow.
