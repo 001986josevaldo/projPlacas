@@ -10,14 +10,14 @@ lista_idiomas = "en,pt"
 idiomas = lista_idiomas.split(",")
 gpu = True #@param {type:"boolean"}
 # Carrega o modelo YOLO
-model = YOLO("E:/ProjetoPlacas/modelos/best.pt")
+model = YOLO("E:\Github\projPlacas\modelos\detectaPlacas.pt")
 tracker = Sort(max_age=30)  # Rastreador
 # Instancia o detector
 tesseract_cmd=r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 detector = PlacaDetector(idiomas, gpu,tesseract_cmd)
 
 # Caminho do vídeo
-caminho_video = 'videos2/03.mp4'
+caminho_video = 'videos/03_compressed.mp4'
 # Verifica se o arquivo existe
 if not os.path.exists(caminho_video):
     raise FileNotFoundError(f"Arquivo '{caminho_video}' não encontrado.")
@@ -30,9 +30,9 @@ if not video.isOpened():
 folder_name = "deteccoes"
 folder_name2 = "x"
 
-# Certifique-se de que as pastas existem
-os.makedirs(folder_name, exist_ok=True)
-os.makedirs(folder_name2, exist_ok=True)
+# Certifique-se de que as pastas existem para salvar detecções
+#os.makedirs(folder_name, exist_ok=True)
+#s.makedirs(folder_name2, exist_ok=True)
 
 # Configurações do vídeo de saída 1
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -44,8 +44,8 @@ out = cv2.VideoWriter(output_path, fourcc, fps, (output_width, output_height))
 
 # Configurações do vídeo de saída 2 (placas recortadas)
 output_path2 = os.path.join(folder_name2, "output_video2.mp4")
-output_width2 = 228 #200
-output_height2 = 60 #output_width2 //2
+output_width2 = 300 #200
+output_height2 = 150 #output_width2 //2
 video_writer2 = cv2.VideoWriter(output_path2, fourcc, fps, (output_width2, output_height2))
 
 # Classes de veículos
@@ -87,16 +87,13 @@ while True:
                 w, h = x2 - x1, y2 - y1
                 # Calcula o centro do bounding box
                 cx, cy = x1 + w // 2, y1 + h // 2  
-                #classe
+                # escreve a classe
                 cv2.putText(img, nomeClass, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 1)
-
-                
 
                 crArray = np.array([x1,y1,x2,y2,conf])
                 detections = np.vstack((detections,crArray))
 
     # Rastrear os objetos
-
     resultTracker = tracker.update(detections)
 
     for result in resultTracker:
@@ -161,7 +158,7 @@ while True:
                 # Valida a placa usando o método da instância `detector`
                 valida = detector.validar_placa(placa)
                 valida2 = detector.validar_placa(texto_limpo)
-                # adicionar classificadore yolo
+                # adicionar classificador yolo e validar
                 print(texto_limpo, valida2)
                 print(placa, valida)
                 '''if valida2:
